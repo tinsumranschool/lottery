@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lottery Analytics</title>
+  <title>Lottery Analytics - เครื่องมือสุ่มเลข</title>
   <link rel="stylesheet" href="styles.css" />
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </head>
@@ -14,71 +13,45 @@
     ⚠️ เครื่องมือนี้เป็นการวิเคราะห์สถิติและสร้างชุดตัวเลขเชิงสร้างสรรค์ ไม่ใช่การทำนายผลรางวัล
   </div>
 
-  <section id="auth-section" class="card">
+  <header class="topbar">
     <h1>Lottery Analytics</h1>
-    <p class="muted">เข้าสู่ระบบด้วย Google</p>
-    <div id="g_id_onload"
-         data-client_id=""
-         data-callback="handleGoogleLogin"
-         data-auto_prompt="false"></div>
-    <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="signin_with" data-shape="rectangular"></div>
-    <p id="auth-message" class="message"></p>
-  </section>
+  </header>
 
-  <section id="pending-section" class="card hidden">
-    <h2>รอการอนุมัติ</h2>
-    <p>บัญชีของคุณอยู่ระหว่างการตรวจสอบ กรุณารอการอนุมัติจากผู้ดูแลระบบ</p>
-  </section>
-
-  <section id="dashboard-section" class="hidden">
-    <header class="topbar">
-      <h1>Dashboard</h1>
-      <div>
-        <span id="user-email" class="muted"></span>
-        <button id="btn-admin" class="small hidden">Admin Panel</button>
-        <button id="btn-logout" class="secondary small">ออกจากระบบ</button>
-      </div>
-    </header>
-
-    <div class="grid">
-      <div class="card">
-        <h2>สร้างชุดตัวเลข</h2>
-        <select id="mode">
-          <option value="weighted">Weighted Frequency</option>
-          <option value="uniform">Uniform Random</option>
-        </select>
-        <button id="btn-generate">สร้างตัวเลข 6 หลัก</button>
-        <div id="result-box" class="result-box hidden">
-          <div class="digits" id="generated-digits"></div>
-          <p class="muted small">สร้างเมื่อ: <span id="generated-time"></span></p>
-          <button id="btn-export-pdf">ส่งออก PDF</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>สถิติความถี่รายหลัก</h2>
-        <div id="frequency-chart" class="frequency-chart"></div>
-      </div>
-
-      <div class="card">
-        <h2>ประวัติการสร้าง</h2>
-        <ul id="history-list" class="history-list"></ul>
-      </div>
-
-      <div class="card">
-        <h2>สมาชิก / การชำระเงิน</h2>
-        <p>สถานะ: <strong id="subscription-status">—</strong></p>
-        <button id="btn-subscribe">สมัคร Pro (199 บาท/เดือน)</button>
+  <div class="grid">
+    <!-- การ์ดสร้างเลข -->
+    <div class="card">
+      <h2>สร้างชุดตัวเลข 6 หลัก</h2>
+      <select id="mode">
+        <option value="weighted">Weighted Frequency (ตามสถิติ)</option>
+        <option value="uniform">Uniform Random (สุ่มเท่ากัน)</option>
+      </select>
+      <button id="btn-generate" style="width: 100%; font-size: 18px; padding: 15px;">🎲 กดเพื่อสุ่มเลข</button>
+      
+      <div id="result-box" class="result-box hidden">
+        <div class="digits" id="generated-digits"></div>
+        <p class="muted small">สร้างเมื่อ: <span id="generated-time"></span></p>
+        <button id="btn-export-pdf" class="secondary">📄 ดาวน์โหลด PDF</button>
       </div>
     </div>
-  </section>
 
-  <section id="admin-section" class="card hidden">
-    <h2>Admin Panel — ผู้ใช้รออนุมัติ</h2>
-    <ul id="pending-users-list"></ul>
-    <button id="btn-back-dashboard" class="secondary">กลับ Dashboard</button>
-  </section>
+    <!-- การ์ดสถิติ -->
+    <div class="card">
+      <h2>สถิติความถี่รายหลัก</h2>
+      <div id="frequency-chart" class="frequency-chart">
+        <p class="muted">กำลังโหลดข้อมูล...</p>
+      </div>
+    </div>
 
+    <!-- การ์ดประวัติ -->
+    <div class="card">
+      <h2>ประวัติการสุ่มล่าสุด</h2>
+      <ul id="history-list" class="history-list">
+        <li class="muted">กำลังโหลด...</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PDF Template -->
   <div id="pdf-template" style="position:fixed; left:-9999px; top:0; width:794px; background:#fff; padding:40px; font-family:'Sarabun',sans-serif;">
     <h1 style="text-align:center; color:#1a56db;">ผลการสร้างชุดตัวเลข</h1>
     <p style="text-align:center; color:#666;">Lottery Analytics — เอกสารวิเคราะห์สถิติ</p>
@@ -90,6 +63,6 @@
   </div>
 
   <script src="config.js"></script>
-  <script type="module" src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
