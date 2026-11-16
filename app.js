@@ -1,7 +1,6 @@
 const $ = id => document.getElementById(id);
 const GAS_URL = window.GAS_URL;
 
-// ── ฟังก์ชันติดต่อ GAS ───────────────────────────────────
 async function callGas(action, payload = {}) {
   const res = await fetch(GAS_URL, {
     method: "POST",
@@ -13,7 +12,6 @@ async function callGas(action, payload = {}) {
   return res.json();
 }
 
-// ── สุ่มตัวเลข ───────────────────────────────────────────
 $("btn-generate").addEventListener("click", async () => {
   const btn = $("btn-generate");
   btn.disabled = true;
@@ -32,7 +30,7 @@ $("btn-generate").addEventListener("click", async () => {
     box.dataset.mode = data.mode;
     box.dataset.time = new Date(data.createdAt).toLocaleString("th-TH");
     
-    loadHistory(); // อัปเดตประวัติ
+    loadHistory();
   } catch (e) { 
     alert("เกิดข้อผิดพลาด: " + e.message); 
   } finally { 
@@ -41,7 +39,6 @@ $("btn-generate").addEventListener("click", async () => {
   }
 });
 
-// ── ดาวน์โหลด PDF ────────────────────────────────────────
 $("btn-export-pdf").addEventListener("click", async () => {
   const box = $("result-box");
   $("pdf-digits").textContent = box.dataset.digits.split("").join(" ");
@@ -56,7 +53,6 @@ $("btn-export-pdf").addEventListener("click", async () => {
   pdf.save(`lottery-${box.dataset.digits}.pdf`);
 });
 
-// ── โหลดประวัติ ──────────────────────────────────────────
 async function loadHistory() {
   try {
     const data = await callGas("history");
@@ -76,7 +72,6 @@ async function loadHistory() {
   }
 }
 
-// ── โหลดสถิติ ────────────────────────────────────────────
 async function loadFrequency() {
   try {
     const data = await callGas("frequency");
@@ -103,7 +98,6 @@ async function loadFrequency() {
   }
 }
 
-// ── เริ่มต้นระบบ ──────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   loadFrequency();
   loadHistory();
