@@ -19,7 +19,7 @@ window.handleGoogleLogin = async (response) => {
 async function callGas(action, payload = {}) {
   const res = await fetch(GAS_URL, {
     method: "POST",
-    headers: { "Content-Type": "text/plain;charset=utf-8" }, // หลบ preflight
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify({ action, payload: { ...payload, sessionToken: session?.sessionToken } }),
     redirect: "follow"
   });
@@ -87,15 +87,6 @@ $("btn-export-pdf").addEventListener("click", async () => {
   pdf.save(`lottery-${box.dataset.digits}.pdf`);
 });
 
-// ── Subscribe ────────────────────────────────────────────
-$("btn-subscribe").addEventListener("click", async () => {
-  try {
-    const data = await callGas("createCheckout");
-    if (data.error) throw new Error(data.error);
-    window.location.href = data.checkoutUrl;
-  } catch (e) { alert(e.message); }
-});
-
 // ── Data loaders ─────────────────────────────────────────
 async function loadHistory() {
   try {
@@ -155,8 +146,5 @@ $("btn-back-dashboard").addEventListener("click", () => {
 
 // ── Init ─────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
-  // ใส่ Client ID ให้ Google Sign-In
-  const script = document.querySelector("#g_id_onload");
-  if (script) script.dataset.client_id = window.GOOGLE_CLIENT_ID;
   render();
 });
